@@ -61,24 +61,71 @@ def GetTrainingData():
 train_data = GetTrainingData()
 
 
-# Compare the mean area on benign vs malignant tumors
-# print("Malignant")
-# print(train_data.area_mean[train_data.diagnosis == "M"].describe())
-# print()
-# print("Benign")
-# print(train_data.area_mean[train_data.diagnosis == "B"].describe())
+def GraphAreaMeanFeature():
+    # Compare the mean area on benign vs malignant tumors
+    print("Malignant")
+    print(train_data.area_mean[train_data.diagnosis == "M"].describe())
+    print()
+    print("Benign")
+    print(train_data.area_mean[train_data.diagnosis == "B"].describe())
 
-f, (ax1, ax2) = plt.subplots(2, 1, sharex=True, figsize=(12,4))
+    f, (ax1, ax2) = plt.subplots(2, 1, sharex=True, figsize=(12,4))
 
-bins = 50
+    bins = 50
 
-ax1.hist(train_data.area_mean[train_data.diagnosis == "M"], bins = bins)
-ax1.set_title('Malignant')
+    ax1.hist(train_data.area_mean[train_data.diagnosis == "M"], bins = bins)
+    ax1.set_title('Malignant')
 
-ax2.hist(train_data.area_mean[train_data.diagnosis == "B"], bins = bins)
-ax2.set_title('Benign')
+    ax2.hist(train_data.area_mean[train_data.diagnosis == "B"], bins = bins)
+    ax2.set_title('Benign')
 
-plt.xlabel('Area Mean')
-plt.ylabel('Number of Diagnosis')
-plt.savefig('graphs/MalignantVsBenign-MeanAreaPlot.png')
-plt.show()
+    plt.xlabel('Area Mean')
+    plt.ylabel('Number of Diagnosis')
+    plt.savefig('graphs/MalignantVsBenign-MeanAreaPlot.png')
+    plt.show()
+
+def GraphAreaWorstFeature():
+    print("Malignant")
+    print(train_data.area_worst[train_data.diagnosis == "M"].describe())
+    print()
+    print("Benign")
+    print(train_data.area_worst[train_data.diagnosis == "B"].describe())
+
+    f, (ax1, ax2) = plt.subplots(2, 1, sharex=True, figsize=(12, 4))
+
+    bins = 30
+
+    ax1.hist(train_data.area_worst[train_data.diagnosis == "M"], bins=bins)
+    ax1.set_title('Malignant')
+
+    ax2.hist(train_data.area_worst[train_data.diagnosis == "B"], bins=bins)
+    ax2.set_title('Benign')
+
+    plt.xlabel('Area Worst')
+    plt.ylabel('Number of Diagnosis')
+    plt.yscale('log')
+    plt.savefig('graphs/MalignantVsBenign-WorstAreaPlot.png')
+    plt.show()
+
+def GraphRestOfFeatures():
+    # Select only the rest of the features.
+    r_data = train_data.drop([idKey, areaMeanKey, areaWorstKey, diagnosisKey], axis=1)
+    r_features = r_data.columns
+
+    plt.figure(figsize=(12, 28 * 4))
+    gs = gridspec.GridSpec(28, 1)
+    for i, cn in enumerate(r_data[r_features]):
+        ax = plt.subplot(gs[i])
+        sns.distplot(train_data[cn][train_data.diagnosis == "M"], bins=50)
+        sns.distplot(train_data[cn][train_data.diagnosis == "B"], bins=50)
+        ax.set_xlabel('')
+        ax.set_title('histogram of feature: ' + str(cn))
+
+    plt.savefig('graphs/MalignantVsBenign-RestOfFeaturesHistogram.png')
+    plt.show()
+
+# Plot the data graphs
+# GraphAreaMeanFeature()
+# GraphAreaWorstFeature()
+# GraphRestOfFeatures()
+
