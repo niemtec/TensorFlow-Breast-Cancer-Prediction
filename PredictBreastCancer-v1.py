@@ -8,7 +8,7 @@ import matplotlib.pyplot as plt
 # Get the training data file
 train_filename = "data.csv"
 
-# Define column keys (for data.csv)
+# Define column keys for data.csv
 idKey = "id"
 diagnosisKey = "diagnosis"
 radiusMeanKey = "radius_mean"
@@ -42,3 +42,16 @@ concavePointsWorstKey = "concave points_worst"
 symmetryWorstKey = "symmetry_worst"
 fractalDimensionWorstKey = "fractal_dimension_worst"
 
+# Columns used for training
+train_columns = [idKey, diagnosisKey, radiusMeanKey, textureMeanKey, perimeterMeanKey, areaMeanKey, smoothnessMeanKey,
+                 compactnessMeanKey, concavityMeanKey, concavePointsMeanKey, symmetryMeanKey, fractalDimensionMean,
+                 radiusSeKey, textureSeKey, perimeterSeKey, areaSeKey, smoothnessSeKey, compactnessSeKey,
+                 concavitySeKey, concavePointsSeKey, symmetrySeKey, fractalDimensionSeKey, radiusWorstKey,
+                 textureWorstKey, perimeterWorstKey, areaWorstKey, smoothnessWorstKey, compactnessWorstKey,
+                 concavityWorstKey, concavePointsWorstKey, symmetryWorstKey, fractalDimensionWorstKey]
+
+
+# Method for loading the training data
+def GetTrainingData():
+    dataFile = pd.read_csv(train_filename, names=train_columns, delimiter=',', skiprows=1)
+    return dataFile
