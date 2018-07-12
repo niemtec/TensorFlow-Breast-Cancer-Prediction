@@ -289,3 +289,4 @@ accuracy = tf.reduce_mean(tf.cast(correct_prediction, tf.float32))
 # Initialise variables
 init = tf.global_variables_initializer()
 
+
