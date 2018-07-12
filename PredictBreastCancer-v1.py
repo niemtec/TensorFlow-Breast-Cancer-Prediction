@@ -199,7 +199,6 @@ for feature in features:
     train_X.loc[:, feature] = (train_X[feature] - mean) / std
     test_X.loc[:, feature] = (test_X[feature] - mean) / std
 
-
 # Training the Neural Network
 
 # Neural Network Parameters
@@ -207,7 +206,7 @@ learning_rate = 0.005
 training_dropout = 0.90
 display_step = 1
 training_epochs = 5
-batch_size =100
+batch_size = 100
 accuracy_history = []
 cost_history = []
 valid_accuracy_history = []
@@ -216,3 +215,22 @@ valid_cost_history = []
 # Number of input nodes
 input_nodes = train_X.shape[1]
 
+# Number of labels (malignant and benign)
+num_labels = 2
+
+# Split the testing data into validation and testing sets
+split = int(len(test_Y) / 2)
+
+train_size = train_X.shape[0]
+n_samples = train_Y.shape[0]
+
+input_X = train_X.as_matrix()
+input_Y = train_Y.as_matrix()
+input_X_valid = test_X.as_matrix()[:split]
+input_Y_valid = test_Y.as_matrix()[:split]
+input_X_test = test_X.as_matrix()[split:]
+input_Y_test = test_Y.as_matrix()[split:]
+
+
+def CalculateHiddenNodes(nodes):
+    return (((2 * nodes) / 3) + num_labels)
