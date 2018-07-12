@@ -5,62 +5,8 @@ import matplotlib.gridspec as gridspec
 import seaborn as sns
 import matplotlib.pyplot as plt
 
-# Get the training data file
-train_filename = "data.csv"
 
-# Define column keys for data.csv
-idKey = "id"
-diagnosisKey = "diagnosis"
-radiusMeanKey = "radius_mean"
-textureMeanKey = "texture_mean"
-perimeterMeanKey = "perimeter_mean"
-areaMeanKey = "area_mean"
-smoothnessMeanKey = "smoothness_mean"
-compactnessMeanKey = "compactness_mean"
-concavityMeanKey = "concavity_mean"
-concavePointsMeanKey = "concave points_mean"
-symmetryMeanKey = "symmetry_mean"
-fractalDimensionMean = "fractal_dimension_mean"
-radiusSeKey = "radius_se"
-textureSeKey = "texture_se"
-perimeterSeKey = "perimeter_se"
-areaSeKey = "area_se"
-smoothnessSeKey = "smoothness_se"
-compactnessSeKey = "compactness_se"
-concavitySeKey = "concavity_se"
-concavePointsSeKey = "concave points_se"
-symmetrySeKey = "symmetry_se"
-fractalDimensionSeKey = "fractal_dimension_se"
-radiusWorstKey = "radius_worst"
-textureWorstKey = "texture_worst"
-perimeterWorstKey = "perimeter_worst"
-areaWorstKey = "area_worst"
-smoothnessWorstKey = "smoothness_worst"
-compactnessWorstKey = "compactness_worst"
-concavityWorstKey = "concavity_worst"
-concavePointsWorstKey = "concave points_worst"
-symmetryWorstKey = "symmetry_worst"
-fractalDimensionWorstKey = "fractal_dimension_worst"
-
-# Columns used for training
-train_columns = [idKey, diagnosisKey, radiusMeanKey, textureMeanKey, perimeterMeanKey, areaMeanKey, smoothnessMeanKey,
-                 compactnessMeanKey, concavityMeanKey, concavePointsMeanKey, symmetryMeanKey, fractalDimensionMean,
-                 radiusSeKey, textureSeKey, perimeterSeKey, areaSeKey, smoothnessSeKey, compactnessSeKey,
-                 concavitySeKey, concavePointsSeKey, symmetrySeKey, fractalDimensionSeKey, radiusWorstKey,
-                 textureWorstKey, perimeterWorstKey, areaWorstKey, smoothnessWorstKey, compactnessWorstKey,
-                 concavityWorstKey, concavePointsWorstKey, symmetryWorstKey, fractalDimensionWorstKey]
-
-
-# Method for loading the training data
-def GetTrainingData():
-    dataFile = pd.read_csv(train_filename, names=train_columns, delimiter=',', skiprows=1)
-    return dataFile
-
-
-# Load the training data
-train_data = GetTrainingData()
-
-
+# Define methods for printing data into graphs
 def GraphAreaMeanFeature():
     # Compare the mean area on benign vs malignant tumors
     print("Malignant")
@@ -126,6 +72,61 @@ def GraphRestOfFeatures():
     plt.savefig('graphs/MalignantVsBenign-RestOfFeaturesHistogram.png')
     plt.show()
 
+
+# Get the training data file
+train_filename = "data.csv"
+
+# Define column keys for data.csv
+idKey = "id"
+diagnosisKey = "diagnosis"
+radiusMeanKey = "radius_mean"
+textureMeanKey = "texture_mean"
+perimeterMeanKey = "perimeter_mean"
+areaMeanKey = "area_mean"
+smoothnessMeanKey = "smoothness_mean"
+compactnessMeanKey = "compactness_mean"
+concavityMeanKey = "concavity_mean"
+concavePointsMeanKey = "concave points_mean"
+symmetryMeanKey = "symmetry_mean"
+fractalDimensionMean = "fractal_dimension_mean"
+radiusSeKey = "radius_se"
+textureSeKey = "texture_se"
+perimeterSeKey = "perimeter_se"
+areaSeKey = "area_se"
+smoothnessSeKey = "smoothness_se"
+compactnessSeKey = "compactness_se"
+concavitySeKey = "concavity_se"
+concavePointsSeKey = "concave points_se"
+symmetrySeKey = "symmetry_se"
+fractalDimensionSeKey = "fractal_dimension_se"
+radiusWorstKey = "radius_worst"
+textureWorstKey = "texture_worst"
+perimeterWorstKey = "perimeter_worst"
+areaWorstKey = "area_worst"
+smoothnessWorstKey = "smoothness_worst"
+compactnessWorstKey = "compactness_worst"
+concavityWorstKey = "concavity_worst"
+concavePointsWorstKey = "concave points_worst"
+symmetryWorstKey = "symmetry_worst"
+fractalDimensionWorstKey = "fractal_dimension_worst"
+
+# Columns used for training
+train_columns = [idKey, diagnosisKey, radiusMeanKey, textureMeanKey, perimeterMeanKey, areaMeanKey, smoothnessMeanKey,
+                 compactnessMeanKey, concavityMeanKey, concavePointsMeanKey, symmetryMeanKey, fractalDimensionMean,
+                 radiusSeKey, textureSeKey, perimeterSeKey, areaSeKey, smoothnessSeKey, compactnessSeKey,
+                 concavitySeKey, concavePointsSeKey, symmetrySeKey, fractalDimensionSeKey, radiusWorstKey,
+                 textureWorstKey, perimeterWorstKey, areaWorstKey, smoothnessWorstKey, compactnessWorstKey,
+                 concavityWorstKey, concavePointsWorstKey, symmetryWorstKey, fractalDimensionWorstKey]
+
+
+# Method for loading the training data
+def GetTrainingData():
+    dataFile = pd.read_csv(train_filename, names=train_columns, delimiter=',', skiprows=1)
+    return dataFile
+
+
+# Load the training data
+train_data = GetTrainingData()
 
 # Plot the data graphs
 # GraphAreaMeanFeature()
@@ -197,4 +198,3 @@ for feature in features:
     mean, std = train_data[feature].mean(), train_data[feature].std()
     train_X.loc[:, feature] = (train_X[feature] - mean) / std
     test_X.loc[:, feature] = (test_X[feature] - mean) / std
-
