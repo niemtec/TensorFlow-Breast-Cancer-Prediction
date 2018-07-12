@@ -203,7 +203,7 @@ for feature in features:
 
 # Neural Network Parameters
 learning_rate = 0.005
-training_dropout = 0.90
+training_dropout = 0.9
 display_step = 1
 training_epochs = 5
 batch_size = 100
@@ -261,7 +261,7 @@ y2 = tf.nn.relu(tf.matmul(y1, W2) + b2)
 
 # Layer 3
 W3 = tf.Variable(tf.truncated_normal([hidden_nodes2, hidden_nodes3], stddev=0.1))
-b3 = tf.Variable(tf.zero([hidden_nodes3]))
+b3 = tf.Variable(tf.zeros([hidden_nodes3]))
 y3 = tf.nn.relu(tf.matmul(y2, W3) + b3)
 y3 = tf.nn.dropout(y3, pkeep)
 
@@ -296,7 +296,7 @@ with tf.Session() as sess:
     for epoch in range(training_epochs):
         for batch in range(int(n_samples / batch_size)):
             batch_x = input_X[batch * batch_size: (1 + batch) * batch_size]
-            batch_y = input_Y[batch * batch_size: (1 + batch) * batch_size]
+            batch_y = input_Y[batch * batch_size : (1 + batch) * batch_size]
 
             sess.run([optimiser], feed_dict={
                 x: batch_x,
@@ -307,17 +307,12 @@ with tf.Session() as sess:
         # Display logs after every 10 epochs
         if (epoch) % display_step == 0:
             train_accuracy, newCost = sess.run([accuracy, cost],
-                                               feed_dict={
-                                                   x: input_X,
-                                                   y_: input_Y,
-                                                   pkeep: training_dropout
-                                               })
+                                               feed_dict={x: input_X, y_: input_Y,
+                                                          pkeep: training_dropout})
+
             valid_accuracy, valid_newCost = sess.run([accuracy, cost],
-                                                     feed_dict={
-                                                         x: input_X_valid,
-                                                         y_: input_Y_valid,
-                                                         pkeep: 1
-                                                     })
+                                                     feed_dict={x: input_X_valid,
+                                                                y_: input_Y_valid, pkeep: 1})
 
             print("Epoch: ", epoch, "  Accuracy: ", "{:.5f}".format(train_accuracy),
                   "  Cost: ", "{:.5f}".format(newCost),
@@ -340,3 +335,17 @@ with tf.Session() as sess:
 
         print("Optimisation Finished.")
 
+        # Plot the accuracy and cost summaries
+        f, (ax1, ax2) = plt.subplots(2, 1, sharex=True, figsize=(10, 4))
+
+        ax1.plot(accuracy_history, color='b')  # blue
+        ax1.plot(valid_accuracy_history, color='g')  # green
+        ax1.set_title('Accuracy')
+
+        ax2.plot(cost_history, color='b')
+        ax2.plot(valid_cost_history, color='g')
+        ax2.set_title('Cost')
+
+        plt.xlabel('Epochs (x10)')
+        plt.savefig('graphs/FinalAccuracyAndCostSummary.png')
+        plt.show()
