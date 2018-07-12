@@ -147,3 +147,20 @@ train_data['benign'] = train_data.benign.astype(int)
 # Rename 'Class' to 'Malignant'
 train_data = train_data.rename(columns={'diagnosis': 'malignant'})
 
+# Print result stats
+# print(train_data.benign.value_counts())
+# print()
+# print(train_data.malignant.value_counts())
+
+
+# Create dataframes for only Malignant and Benign diagnosis
+Malignant = train_data[train_data.malignant == 1]
+Benign = train_data[train_data.benign == 1]
+
+# Set train_X = 80% of the malignant diagnosis
+train_X = Malignant.sample(frac = 0.8)
+count_Malignants = len(train_X)
+
+# Add 805 of benign diagnosis to the train_X set
+train_X = pd.concat([train_X, Benign.sample(frac = 0.8)], axis = 0)
+
