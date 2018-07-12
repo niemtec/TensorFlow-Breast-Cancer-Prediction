@@ -164,3 +164,10 @@ count_Malignants = len(train_X)
 # Add 805 of benign diagnosis to the train_X set
 train_X = pd.concat([train_X, Benign.sample(frac = 0.8)], axis = 0)
 
+# Text_X dataset should contain all the diagnostics not present in train_X
+test_X = train_data.loc[~train_data.aindex.isin(train_X.index)]
+
+# Shuffle the dataframes for training to be done in random order
+train_X = shuffle(train_X)
+text_X = shuffle(test_X)
+
