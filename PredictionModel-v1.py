@@ -133,6 +133,9 @@ train_data = GetTrainingData()
 # GraphAreaWorstFeature()
 # GraphRestOfFeatures()
 
+train_data.head()
+train_data.describe()
+train_data.isnull().sum()
 
 # Update the value of diagnosis (1 = malignant and 0 = benign)
 train_data.loc[train_data.diagnosis == 'M', 'diagnosis'] = 1
@@ -147,6 +150,9 @@ train_data['benign'] = train_data.benign.astype(int)
 
 # Rename 'Class' to 'Malignant'
 train_data = train_data.rename(columns={'diagnosis': 'malignant'})
+
+pd.set_option("display.max_columns", 101)
+train_data.head()
 
 # Print result stats
 # print(train_data.benign.value_counts())
@@ -170,14 +176,14 @@ test_X = train_data.loc[~train_data.index.isin(train_X.index)]
 
 # Shuffle the data frames for training to be done in random order
 train_X = shuffle(train_X)
-text_X = shuffle(test_X)
+test_X = shuffle(test_X)
 
 # Add target features to train_Y and test_Y
 train_Y = train_X.malignant
 train_Y = pd.concat([train_Y, train_X.benign], axis=1)
 
 test_Y = test_X.malignant
-text_Y = pd.concat([test_Y, test_X.benign], axis=1)
+test_Y = pd.concat([test_Y, test_X.benign], axis=1)
 
 # Drop target features from train_X and test_X
 train_X = train_X.drop(['malignant', 'benign'], axis=1)
@@ -296,7 +302,7 @@ with tf.Session() as sess:
     for epoch in range(training_epochs):
         for batch in range(int(n_samples / batch_size)):
             batch_x = input_X[batch * batch_size: (1 + batch) * batch_size]
-            batch_y = input_Y[batch * batch_size : (1 + batch) * batch_size]
+            batch_y = input_Y[batch * batch_size: (1 + batch) * batch_size]
 
             sess.run([optimiser], feed_dict={
                 x: batch_x,
