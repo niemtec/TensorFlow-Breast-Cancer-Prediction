@@ -69,20 +69,21 @@ def GraphAreaMeanFeature():
     print("Benign")
     print(train_data.area_mean[train_data.diagnosis == "B"].describe())
 
-    f, (ax1, ax2) = plt.subplots(2, 1, sharex=True, figsize=(12,4))
+    f, (ax1, ax2) = plt.subplots(2, 1, sharex=True, figsize=(12, 4))
 
     bins = 50
 
-    ax1.hist(train_data.area_mean[train_data.diagnosis == "M"], bins = bins)
+    ax1.hist(train_data.area_mean[train_data.diagnosis == "M"], bins=bins)
     ax1.set_title('Malignant')
 
-    ax2.hist(train_data.area_mean[train_data.diagnosis == "B"], bins = bins)
+    ax2.hist(train_data.area_mean[train_data.diagnosis == "B"], bins=bins)
     ax2.set_title('Benign')
 
     plt.xlabel('Area Mean')
     plt.ylabel('Number of Diagnosis')
     plt.savefig('graphs/MalignantVsBenign-MeanAreaPlot.png')
     plt.show()
+
 
 def GraphAreaWorstFeature():
     print("Malignant")
@@ -107,6 +108,7 @@ def GraphAreaWorstFeature():
     plt.savefig('graphs/MalignantVsBenign-WorstAreaPlot.png')
     plt.show()
 
+
 def GraphRestOfFeatures():
     # Select only the rest of the features.
     r_data = train_data.drop([idKey, areaMeanKey, areaWorstKey, diagnosisKey], axis=1)
@@ -124,8 +126,24 @@ def GraphRestOfFeatures():
     plt.savefig('graphs/MalignantVsBenign-RestOfFeaturesHistogram.png')
     plt.show()
 
+
 # Plot the data graphs
 # GraphAreaMeanFeature()
 # GraphAreaWorstFeature()
 # GraphRestOfFeatures()
+
+
+# Update the value of diagnosis (1 = malignant and 0 = benign)
+train_data.loc[train_data.diagnosis == 'M', 'diagnosis'] = 1
+train_data.loc[train_data.diagnosis == 'B', 'diagnosis'] = 0
+
+# Create a new feature for benign (non-malignant) diagnosis
+train_data.loc[train_data.diagnosis == 0, 'benign'] = 1
+train_data.loc[train_data.diagnosis == 1, 'benign'] = 0
+
+# Convert benign column type to integer
+train_data['benign'] = train_data.benign.astype(int)
+
+# Rename 'Class' to 'Malignant'
+train_data = train_data.rename(columns={'diagnosis': 'malignant'})
 
