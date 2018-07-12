@@ -198,3 +198,21 @@ for feature in features:
     mean, std = train_data[feature].mean(), train_data[feature].std()
     train_X.loc[:, feature] = (train_X[feature] - mean) / std
     test_X.loc[:, feature] = (test_X[feature] - mean) / std
+
+
+# Training the Neural Network
+
+# Neural Network Parameters
+learning_rate = 0.005
+training_dropout = 0.90
+display_step = 1
+training_epochs = 5
+batch_size =100
+accuracy_history = []
+cost_history = []
+valid_accuracy_history = []
+valid_cost_history = []
+
+# Number of input nodes
+input_nodes = train_X.shape[1]
+
