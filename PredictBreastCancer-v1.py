@@ -158,16 +158,32 @@ Malignant = train_data[train_data.malignant == 1]
 Benign = train_data[train_data.benign == 1]
 
 # Set train_X = 80% of the malignant diagnosis
-train_X = Malignant.sample(frac = 0.8)
+train_X = Malignant.sample(frac=0.8)
 count_Malignants = len(train_X)
 
 # Add 805 of benign diagnosis to the train_X set
-train_X = pd.concat([train_X, Benign.sample(frac = 0.8)], axis = 0)
+train_X = pd.concat([train_X, Benign.sample(frac=0.8)], axis=0)
 
 # Text_X dataset should contain all the diagnostics not present in train_X
-test_X = train_data.loc[~train_data.aindex.isin(train_X.index)]
+test_X = train_data.loc[~train_data.index.isin(train_X.index)]
 
-# Shuffle the dataframes for training to be done in random order
+# Shuffle the data frames for training to be done in random order
 train_X = shuffle(train_X)
 text_X = shuffle(test_X)
 
+# Add target features to train_Y and test_Y
+train_Y = train_X.malignant
+train_Y = pd.concat([train_Y, train_X.benign], axis=1)
+
+test_Y = test_X.malignant
+text_Y = pd.concat([test_Y, test_X.benign], axis=1)
+
+# Drop target features from train_X and test_X
+train_X = train_X.drop(['malignant', 'benign'], axis=1)
+test_X = test_X.drop(['malignant', 'benign'], axis=1)
+
+# Check if all training/testing dataframes are of the right length
+# print(len(train_X))
+# print(len(train_Y))
+# print(len(test_X))
+# print(len(test_Y))
