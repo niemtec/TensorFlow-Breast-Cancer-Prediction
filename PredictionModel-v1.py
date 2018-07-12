@@ -289,4 +289,54 @@ accuracy = tf.reduce_mean(tf.cast(correct_prediction, tf.float32))
 # Initialise variables
 init = tf.global_variables_initializer()
 
+# Launch the graph
+with tf.Session() as sess:
+    sess.run(tf.global_variables_initializer())
+
+    for epoch in range(training_epochs):
+        for batch in range(int(n_samples / batch_size)):
+            batch_x = input_X[batch * batch_size: (1 + batch) * batch_size]
+            batch_y = input_Y[batch * batch_size: (1 + batch) * batch_size]
+
+            sess.run([optimiser], feed_dict={
+                x: batch_x,
+                y_: batch_y,
+                pkeep: training_dropout
+            })
+
+        # Display logs after every 10 epochs
+        if (epoch) % display_step == 0:
+            train_accuracy, newCost = sess.run([accuracy, cost],
+                                               feed_dict={
+                                                   x: input_X,
+                                                   y_: input_Y,
+                                                   pkeep: training_dropout
+                                               })
+            valid_accuracy, valid_newCost = sess.run([accuracy, cost],
+                                                     feed_dict={
+                                                         x: input_X_valid,
+                                                         y_: input_Y_valid,
+                                                         pkeep: 1
+                                                     })
+
+            print("Epoch: ", epoch, "  Accuracy: ", "{:.5f}".format(train_accuracy),
+                  "  Cost: ", "{:.5f}".format(newCost),
+                  "  Valid Accuracy: ", "{:.5f}".format(valid_accuracy),
+                  "  Valid Cost: ", "{:.5f}".format(valid_newCost))
+
+            # Record the results of the results of the model
+            accuracy_history.append(train_accuracy)
+            cost_history.append(newCost)
+            valid_accuracy_history.append(valid_accuracy)
+            valid_cost_history.append(valid_newCost)
+
+            # If the model does n ot improve after 15 logs, stop the training
+            if valid_accuracy < max(valid_accuracy_history) and epoch > 100:
+                stop_early += 1
+                if stop_early == 15:
+                    break
+            else:
+                stop_early = 0
+
+        print("Optimisation Finished.")
 
