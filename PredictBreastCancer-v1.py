@@ -242,3 +242,35 @@ hidden_nodes2 = round(CalculateHiddenNodes(hidden_nodes1))
 hidden_nodes3 = round(CalculateHiddenNodes(hidden_nodes2))
 
 print(input_nodes, hidden_nodes1, hidden_nodes2, hidden_nodes3)
+
+# Percent of nodes to keep during dropout
+pkeep = tf.placeholder(tf.float32)
+
+# Input
+x = tf.placeholder(tf.float32, [None, input_nodes])
+
+# Layer 1
+W1 = tf.Variable(tf.truncated_normal([input_nodes, hidden_nodes1], stddev=0.1))
+b1 = tf.Variable(tf.zeros([hidden_nodes1]))
+y1 = tf.nn.relu(tf.matmul(x, W1) + b1)
+
+# Layer 2
+W2 = tf.Variable(tf.truncated_normal([hidden_nodes1, hidden_nodes2], stddev=0.1))
+b2 = tf.Variable(tf.zeros([hidden_nodes2]))
+y2 = tf.nn.relu(tf.matmul(y1, W2) + b2)
+
+# Layer 3
+W3 = tf.Variable(tf.truncated_normal([hidden_nodes2, hidden_nodes3], stddev=0.1))
+b3 = tf.Variable(tf.zero([hidden_nodes3]))
+y3 = tf.nn.relu(tf.matmul(y2, W3) + b3)
+y3 = tf.nn.dropout(y3, pkeep)
+
+# Layer 4
+W4 = tf.Variable(tf.truncated_normal([hidden_nodes3, 2], stddev=0.1))
+b4 = tf.Variable(tf.zeros([2]))
+y4 = tf.nn.softmax(tf.matmul(y3, W4) + b4)
+
+# Output
+y = y4
+y_ = tf.placeholder(tf.float32, [None, num_labels])
+
