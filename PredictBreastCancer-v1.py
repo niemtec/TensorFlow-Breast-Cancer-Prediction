@@ -55,3 +55,13 @@ train_columns = [idKey, diagnosisKey, radiusMeanKey, textureMeanKey, perimeterMe
 def GetTrainingData():
     dataFile = pd.read_csv(train_filename, names=train_columns, delimiter=',', skiprows=1)
     return dataFile
+
+
+# Load the training data
+train_data = GetTrainingData()
+
+print("Malignant")
+print(train_data.area_mean[train_data.diagnosis == "M"].describe())
+print()
+print("Benign")
+print(train_data.area_mean[train_data.diagnosis == "B"].describe())
