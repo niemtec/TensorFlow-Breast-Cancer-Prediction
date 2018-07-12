@@ -234,3 +234,11 @@ input_Y_test = test_Y.as_matrix()[split:]
 
 def CalculateHiddenNodes(nodes):
     return (((2 * nodes) / 3) + num_labels)
+
+
+# Number of nodes in each hidden layer
+hidden_nodes1 = round(CalculateHiddenNodes(input_nodes))
+hidden_nodes2 = round(CalculateHiddenNodes(hidden_nodes1))
+hidden_nodes3 = round(CalculateHiddenNodes(hidden_nodes2))
+
+print(input_nodes, hidden_nodes1, hidden_nodes2, hidden_nodes3)
