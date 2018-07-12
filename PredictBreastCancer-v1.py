@@ -60,8 +60,25 @@ def GetTrainingData():
 # Load the training data
 train_data = GetTrainingData()
 
-print("Malignant")
-print(train_data.area_mean[train_data.diagnosis == "M"].describe())
-print()
-print("Benign")
-print(train_data.area_mean[train_data.diagnosis == "B"].describe())
+
+# Compare the mean area on benign vs malignant tumors
+# print("Malignant")
+# print(train_data.area_mean[train_data.diagnosis == "M"].describe())
+# print()
+# print("Benign")
+# print(train_data.area_mean[train_data.diagnosis == "B"].describe())
+
+f, (ax1, ax2) = plt.subplots(2, 1, sharex=True, figsize=(12,4))
+
+bins = 50
+
+ax1.hist(train_data.area_mean[train_data.diagnosis == "M"], bins = bins)
+ax1.set_title('Malignant')
+
+ax2.hist(train_data.area_mean[train_data.diagnosis == "B"], bins = bins)
+ax2.set_title('Benign')
+
+plt.xlabel('Area Mean')
+plt.ylabel('Number of Diagnosis')
+plt.savefig('graphs/MalignantVsBenign-MeanAreaPlot.png')
+plt.show()
