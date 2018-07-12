@@ -274,3 +274,18 @@ y4 = tf.nn.softmax(tf.matmul(y3, W4) + b4)
 y = y4
 y_ = tf.placeholder(tf.float32, [None, num_labels])
 
+# Minimise error using cross entropy
+cost = -tf.reduce_sum(y_ * tf.log(y))
+
+# Adam Optimiser
+optimiser = tf.train.AdamOptimizer(learning_rate).minimize(cost)
+
+# Test Model
+correct_prediction = tf.equal(tf.argmax(y, 1), tf.argmax(y_, 1))
+
+# Calculate accuracy
+accuracy = tf.reduce_mean(tf.cast(correct_prediction, tf.float32))
+
+# Initialise variables
+init = tf.global_variables_initializer()
+
