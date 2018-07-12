@@ -187,3 +187,14 @@ test_X = test_X.drop(['malignant', 'benign'], axis=1)
 # print(len(train_Y))
 # print(len(test_X))
 # print(len(test_Y))
+
+
+# Names of all the features in train_X
+features = train_X.columns.values
+
+# Transform each feature in features so that it has a mean of 0 and s.d. of 1. (Helps training the softmax algorithm)
+for feature in features:
+    mean, std = train_data[feature].mean(), train_data[feature].std()
+    train_X.loc[:, feature] = (train_X[feature] - mean) / std
+    test_X.loc[:, feature] = (test_X[feature] - mean) / std
+
