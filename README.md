@@ -24,3 +24,13 @@ The graph below demonstrates the comparison of all the remaining features of the
 The below graph demonstrates the prediction accuracy and cost after training the network. Results are recorded once every 10 epochs.
 
 ![Results](graphs/FinalAccuracyAndCostSummary.png)
+
+The prediction accuracy of the network on the current dataset holds at over 90%. With an average accuracy of 91% and valid accuracy of 96%.
+Sample results after running the program can be seen below:
+
+```
+Epoch:  0   Accuracy:  0.84649   Cost:  305.33835   Valid Accuracy:  0.89286   Valid Cost:  37.34540
+Epoch:  1   Accuracy:  0.90789   Cost:  281.78021   Valid Accuracy:  0.96429   Valid Cost:  34.34660
+Epoch:  2   Accuracy:  0.93421   Cost:  238.87416   Valid Accuracy:  0.98214   Valid Cost:  28.73949
+Epoch:  3   Accuracy:  0.93421   Cost:  179.49176   Valid Accuracy:  0.96429   Valid Cost:  20.79158
+Epoch:  4   Accuracy:  0.94737   Cost:  122.69955   Valid Accuracy:  0.98214   Valid Cost:  12.74732

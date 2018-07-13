@@ -339,19 +339,19 @@ with tf.Session() as sess:
             else:
                 stop_early = 0
 
-        print("Optimisation Finished.")
+    print("Run Complete Finished.")
 
-        # Plot the accuracy and cost summaries
-        f, (ax1, ax2) = plt.subplots(2, 1, sharex=True, figsize=(10, 4))
+    # Plot the accuracy and cost summaries
+    f, (ax1, ax2) = plt.subplots(2, 1, sharex=True, figsize=(10, 4))
 
-        ax1.plot(accuracy_history, color='b')  # blue
-        ax1.plot(valid_accuracy_history, color='g')  # green
-        ax1.set_title('Accuracy')
+    ax1.plot(accuracy_history, color='b')  # blue
+    ax1.plot(valid_accuracy_history, color='g')  # green
+    ax1.set_title('Accuracy')
 
-        ax2.plot(cost_history, color='b')
-        ax2.plot(valid_cost_history, color='g')
-        ax2.set_title('Cost')
+    ax2.plot(cost_history, color='b')
+    ax2.plot(valid_cost_history, color='g')
+    ax2.set_title('Cost')
 
-        plt.xlabel('Epochs (x10)')
-        plt.savefig('graphs/FinalAccuracyAndCostSummary.png')
-        plt.show()
+    plt.xlabel('Epochs (x10)')
+    plt.savefig('graphs/FinalAccuracyAndCostSummary.png')
+    plt.show()
